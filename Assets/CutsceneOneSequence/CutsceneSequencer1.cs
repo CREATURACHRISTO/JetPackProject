@@ -8,8 +8,14 @@ public class CutsceneSequencer1 : MonoBehaviour
     public GameObject cam2;
     public GameObject playerCam;
 
+    private GameObject player;
+    private Rigidbody rb;
+
     void Start()
     {
+        player = GameObject.Find("Jetpack");
+        rb = player.GetComponent<Rigidbody>();
+        rb.constraints = RigidbodyConstraints.FreezeAll;
         StartCoroutine(CutsceneSequencer());
     }
 
@@ -21,5 +27,6 @@ public class CutsceneSequencer1 : MonoBehaviour
         yield return new WaitForSeconds(2);
         playerCam.SetActive(true);
         cam2.SetActive(false);
+        rb.constraints = RigidbodyConstraints.None;
     }
 }

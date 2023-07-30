@@ -14,6 +14,9 @@ public class Dialogue : MonoBehaviour
     static Story story;
     Text dialogue;
 
+    public Timer timer1;
+    public bool autoContinue;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -23,27 +26,17 @@ public class Dialogue : MonoBehaviour
         {
             AdvanceDialogue();
         }
-    }
 
-    // Update is called once per frame
-    void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            if (story.canContinue)
-            {
-                AdvanceDialogue();
-            }
-            else
-            {
-                FinishDialogue();
-            }
-        }
+        autoContinue = true;
+        timer1 = gameObject.AddComponent<Timer>();
+        timer1.time = 3.0f;
+        timer1.onTimerFinished += OnTimerDone;
+        timer1.StartTimer();
     }
 
     private void FinishDialogue()
     {
-        Debug.Log("all done with dialogue!");
+        this.gameObject.SetActive(false);
     }
 
     private void AdvanceDialogue()
@@ -62,5 +55,18 @@ public class Dialogue : MonoBehaviour
             yield return null;
         }
         yield return null;
+    }
+
+    private void OnTimerDone()
+    {
+        if (story.canContinue)
+        {
+            AdvanceDialogue();
+            timer1.StartTimer();
+        }
+        else
+        {
+            FinishDialogue();
+        }
     }
 }
