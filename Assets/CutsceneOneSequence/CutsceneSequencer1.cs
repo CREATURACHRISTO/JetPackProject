@@ -7,6 +7,7 @@ public class CutsceneSequencer1 : MonoBehaviour
     public GameObject cam1;
     public GameObject cam2;
     public GameObject playerCam;
+    public GameObject focalPoint;
 
     private GameObject player;
     private Rigidbody rb;
@@ -25,8 +26,10 @@ public class CutsceneSequencer1 : MonoBehaviour
         cam2.SetActive(true);
         cam1.SetActive(false);
         yield return new WaitForSeconds(2);
+        focalPoint.SetActive(true);
         playerCam.SetActive(true);
         cam2.SetActive(false);
         rb.constraints = RigidbodyConstraints.None;
+        rb.constraints = RigidbodyConstraints.FreezeRotationZ;
     }
 }
